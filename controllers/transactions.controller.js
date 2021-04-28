@@ -15,9 +15,12 @@ const controllers = {
     getAllTransactions: async (req, res) => {
         const { user_id } = req.body;
 
-        if(user_id) {
+        if (user_id) {
             try {
-                const transactions = await db.query("SELECT * FROM transactions WHERE user_id = ?", [user_id]);
+                const transactions = await db.query(
+                    "SELECT * FROM transactions WHERE user_id = ?",
+                    [user_id]
+                );
                 res.status(201).json(transactions);
             } catch (error) {
                 res.status(400).json(error);
@@ -27,9 +30,23 @@ const controllers = {
         }
     },
 
-    getLatestTransactions: (req, res) => {
+    getLatestTransactions: async (req, res) => {
         // get 10 last transactions for home page
-        res.json("get latest 10 transactions");
+        const { user_id } = req.body;
+
+        if (user_id) {
+            try {
+                const transactions = await db.query(
+                    "SELECT * FROM transactions WHERE user_id = ? ORDER BY id DESC LIMIT 10",
+                    [user_id]
+                );
+                res.status(201).json(transactions);
+            } catch (error) {
+                res.status(400).json(error);
+            }
+        } else {
+            res.status(400).json("Request must have a user_id.");
+        }
     },
 
     getTransactionsByType: (req, res) => {

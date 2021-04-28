@@ -17,9 +17,9 @@ DESCRIBE users;
 CREATE TABLE transactions(
     id INT(11) NOT NULL AUTO_INCREMENT,
     ammount INT(11) NOT NULL, 
-    type CHAR(6) NOT NULL, 
-    spends_cathegory VARCHAR(40), 
-    income_cathegory VARCHAR(40), 
+    type CHAR(6) NOT NULL, --income/spends
+    spends_cathegory VARCHAR(40), --food/transport/fun/clothes/taxes/health/home...
+    income_cathegory VARCHAR(40), --job, extra, gift
     user_id INT(11) NOT NULL, 
     created_at TIMESTAMP NOT NULL,
     PRIMARY KEY (id),
@@ -28,8 +28,5 @@ CREATE TABLE transactions(
     FOREIGN KEY (user_id) 
     REFERENCES users(id)
 );
---job, extra, gift
---food/transport/fun/clothes/taxes/health/home...
---income/spends
 
 DESCRIBE transactions;

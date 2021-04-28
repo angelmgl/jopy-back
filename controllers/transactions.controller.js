@@ -1,7 +1,15 @@
-module.exports = {
-    createTransaction: (req, res) => {
-        // create a new transaction
-        res.json("creating a new transaction");
+const db = require("../database");
+
+const controllers = {
+    createTransaction: async (req, res) => {
+        const newTransaction = req.body;
+        
+        try {
+            await db.query("INSERT INTO transactions set ?", [newTransaction]);
+            res.status(201).json(newTransaction);
+        } catch (error) {
+            res.status(400).json(error);
+        }
     },
 
     getAllTransactions: (req, res) => {
@@ -33,4 +41,6 @@ module.exports = {
         // delete a transaction by its id
         res.json("deleting");
     },
-}
+};
+
+module.exports = controllers;

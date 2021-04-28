@@ -18,7 +18,7 @@ router.get("/:type", getTransactionsByType);
 
 router.get("/:id", getTransactionById);
 
-router.post("/new", createTransaction);
+router.post("/", createTransaction);
 
 router.put("/:id", updateTransactionById);
 

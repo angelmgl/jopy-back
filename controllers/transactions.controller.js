@@ -3,7 +3,7 @@ const db = require("../database");
 const controllers = {
     createTransaction: async (req, res) => {
         const newTransaction = req.body;
-        
+
         try {
             await db.query("INSERT INTO transactions set ?", [newTransaction]);
             res.status(201).json(newTransaction);
@@ -12,9 +12,19 @@ const controllers = {
         }
     },
 
-    getAllTransactions: (req, res) => {
-        // get all transactions
-        res.json("get all transactions");
+    getAllTransactions: async (req, res) => {
+        const { user_id } = req.body;
+
+        if(user_id) {
+            try {
+                const transactions = await db.query("SELECT * FROM transactions WHERE user_id = ?", [user_id]);
+                res.status(201).json(transactions);
+            } catch (error) {
+                res.status(400).json(error);
+            }
+        } else {
+            res.status(400).json("Request must have a user_id.");
+        }
     },
 
     getLatestTransactions: (req, res) => {

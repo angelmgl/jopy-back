@@ -10,6 +10,8 @@ const {
     deleteTransactionById
 } = require("../controllers/transactions.controller");
 
+router.post("/", createTransaction);
+
 router.get("/", getAllTransactions);
 
 router.get("/latest", getLatestTransactions);
@@ -17,8 +19,6 @@ router.get("/latest", getLatestTransactions);
 router.get("/:type", getTransactionsByType);
 
 router.get("/:id", getTransactionById);
-
-router.post("/", createTransaction);
 
 router.put("/:id", updateTransactionById);
 

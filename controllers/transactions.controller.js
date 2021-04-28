@@ -49,9 +49,28 @@ const controllers = {
         }
     },
 
-    getTransactionsByType: (req, res) => {
+    getTransactionsByType: async (req, res) => {
         // get a transaction by its type
-        res.json("get all transactions by its type");
+        const { user_id } = req.body;
+        const { type } = req.params;
+
+        if (user_id) {
+            if(type === "income" || type === "spends") {
+                try {
+                    const transactions = await db.query(
+                        "SELECT * FROM transactions WHERE user_id = ? AND type = ?",
+                        [user_id, type]
+                    );
+                    res.status(201).json(transactions);
+                } catch (error) {
+                    res.status(400).json(error);
+                }
+            } else {
+                res.status(404).json("This page does'nt exist!");
+            }
+        } else {
+            res.status(400).json("Request must have a user_id.");
+        }
     },
 
     getTransactionById: (req, res) => {

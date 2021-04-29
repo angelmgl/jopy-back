@@ -17,7 +17,8 @@ app.use(express.json()); // to req and res json files through an API
 
 // routes
 app.use(require("./routes"));
-app.use("/transactions", require("./routes/transactions.routes"));
+app.use("/api/transactions", require("./routes/transactions.routes"));
+app.use("/api/auth", require("./routes/auth.routes"));
 
 // starting the server
 app.listen(app.get('port'), () => {

@@ -23,7 +23,7 @@ const controllers = {
         // check if the username already exists
         if (checkUsername == 0) {
             try {
-                const savedUser = await db.query("INSERT INTO users set ?", [
+                const savedUser = await db.query("INSERT INTO users SET ?", [
                     newUser,
                 ]);
                 // create a new token for the user

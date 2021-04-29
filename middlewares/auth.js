@@ -1,22 +1,24 @@
 const jwt = require("jsonwebtoken");
+const { searchId } = require("../libs/helpers");
 const { SECRET } = require("../config");
 
 const verifyToken = async (req, res, next) => {
     const token = req.headers["x-access-token"];
-    const { id, user_id } = req.body; // user id and transactions.user_id
 
     // the req must have a token
     if(!token) return res.status(403).json({message: "No token provided."});
 
-    const decoder = jwt.verify(token, SECRET);
-    
-    // token id must be equal to user id
-    if(id != decoder.id) return res.status(403).json({message: "Wrong user id"});
+    const decoded = jwt.verify(token, SECRET);
 
-    // transactions.user_id must be equal to user id
-    if(id != user_id) return res.status(403).json({message: "Wrong user id"});
-
-    next();
+    try {
+        const checkId = await searchId(decoded.id);
+        // if the user does'nt exist in the database 
+        if(checkId == 0) return res.status(403).json({message: "Token not valid."});
+        
+        next();
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 module.exports = verifyToken;

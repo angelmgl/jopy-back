@@ -36,4 +36,18 @@ helpers.searchUsername = async (username) => {
     }
 };
 
+helpers.searchId = async (id) => {
+    try {
+        // search if that id exist in the database
+        const checkId = await db.query(
+            "SELECT Count(*) FROM users WHERE id = ?",
+            [id]
+        );
+        // return 1 or 0
+        return Object.values(checkId[0]);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 module.exports = helpers;

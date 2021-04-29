@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { SECRET } = require("../config");
 
 const { encryptPassword, matchPasswords } = require("../libs/helpers");
 const db = require("../database");
@@ -19,7 +20,17 @@ const controllers = {
         if (Object.values(checkUsername[0]) == 0) {
             try {
                 const savedUser = await db.query("INSERT INTO users set ?", [newUser]);
-                res.status(201).json({id: savedUser.insertId});
+                // create a new token for the user
+                const token = jwt.sign(
+                    { id: savedUser.insertId },
+                    SECRET,
+                    { expiresIn: 604800 } // 7 days
+                    );
+
+                res.status(201).json({
+                    id: savedUser.insertId,
+                    token
+                });
             } catch (error) {
                 console.log(error);
             }

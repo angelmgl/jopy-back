@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const db = require("../database");
 
 const helpers = {};
 
@@ -16,6 +17,20 @@ helpers.matchPasswords = async (password, receivedPassword) => {
     try {
         const res = await bcrypt.compare(password, receivedPassword);
         return res; // returns a boolean
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+helpers.searchUsername = async (username) => {
+    try {
+        // search if already exist that username in the database
+        const checkUsername = await db.query(
+            "SELECT Count(*) FROM users WHERE username = ?",
+            [username]
+        );
+        // return 1 or 0
+        return Object.values(checkUsername[0]);
     } catch (error) {
         console.log(error);
     }

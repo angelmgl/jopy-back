@@ -1,5 +1,7 @@
 const db = require("../database");
 
+// TODO: change "cathegory" to "category"
+
 const controllers = {
     createTransaction: async (req, res) => {
         const newTransaction = req.body;
@@ -93,12 +95,40 @@ const controllers = {
         }
     },
 
-    updateTransactionById: (req, res) => {
-        // update a transaction by its id
-        res.json("updating");
+    updateTransactionById: async (req, res) => {
+        const { 
+            ammount,
+            spends_cathegory,
+            income_cathegory,
+            user_id,
+            created_at
+        } = req.body;
+
+        const { id } = req.params;
+
+        const transaction = {
+            ammount,
+            spends_cathegory,
+            income_cathegory,
+            created_at
+        };
+
+        if (user_id) {
+            try {
+                const transactionUpdated = await db.query(
+                    "UPDATE transactions SET ? WHERE user_id = ? AND id = ?",
+                    [transaction, user_id, id]
+                );
+                res.status(201).json(transactionUpdated);
+            } catch (error) {
+                res.status(400).json(error);
+            }
+        } else {
+            res.status(400).json("Request must have a user_id.");
+        }
     },
 
-    deleteTransactionById: (req, res) => {
+    deleteTransactionById: async (req, res) => {
         // delete a transaction by its id
         res.json("deleting");
     },

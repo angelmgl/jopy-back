@@ -9,19 +9,20 @@ const {
     updateTransactionById,
     deleteTransactionById
 } = require("../controllers/transactions.controller");
+const verifyToken = require("../middlewares/auth");
 
-router.post("/", createTransaction);
+router.post("/", verifyToken, createTransaction);
 
-router.get("/", getAllTransactions);
+router.get("/", verifyToken, getAllTransactions);
 
-router.get("/latest", getLatestTransactions);
+router.get("/latest", verifyToken, getLatestTransactions);
 
-router.get("/type/:type", getTransactionsByType);
+router.get("/type/:type", verifyToken, getTransactionsByType);
 
-router.get("/:id", getTransactionById);
+router.get("/:id", verifyToken, getTransactionById);
 
-router.put("/:id", updateTransactionById);
+router.put("/:id", verifyToken, updateTransactionById);
 
-router.delete("/:id", deleteTransactionById);
+router.delete("/:id", verifyToken, deleteTransactionById);
 
 module.exports = router;

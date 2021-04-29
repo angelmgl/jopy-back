@@ -16,7 +16,7 @@ router.get("/", getAllTransactions);
 
 router.get("/latest", getLatestTransactions);
 
-router.get("/:type", getTransactionsByType);
+router.get("/type/:type", getTransactionsByType);
 
 router.get("/:id", getTransactionById);
 

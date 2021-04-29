@@ -23,7 +23,7 @@ const controllers = {
                     "SELECT * FROM transactions WHERE user_id = ?",
                     [user_id]
                 );
-                res.status(201).json(transactions);
+                res.status(200).json(transactions);
             } catch (error) {
                 res.status(400).json(error);
             }
@@ -42,7 +42,7 @@ const controllers = {
                     "SELECT * FROM transactions WHERE user_id = ? ORDER BY id DESC LIMIT 10",
                     [user_id]
                 );
-                res.status(201).json(transactions);
+                res.status(200).json(transactions);
             } catch (error) {
                 res.status(400).json(error);
             }
@@ -63,7 +63,7 @@ const controllers = {
                         "SELECT * FROM transactions WHERE user_id = ? AND type = ?",
                         [user_id, type]
                     );
-                    res.status(201).json(transactions);
+                    res.status(200).json(transactions);
                 } catch (error) {
                     res.status(400).json(error);
                 }
@@ -86,7 +86,7 @@ const controllers = {
                     "SELECT * FROM transactions WHERE user_id = ? AND id = ?",
                     [user_id, id]
                 );
-                res.status(201).json(transaction);
+                res.status(200).json(transaction);
             } catch (error) {
                 res.status(400).json(error);
             }
@@ -119,7 +119,7 @@ const controllers = {
                     "UPDATE transactions SET ? WHERE user_id = ? AND id = ?",
                     [transaction, user_id, id]
                 );
-                res.status(201).json(transactionUpdated);
+                res.status(200).json(transactionUpdated);
             } catch (error) {
                 res.status(400).json(error);
             }
@@ -129,8 +129,22 @@ const controllers = {
     },
 
     deleteTransactionById: async (req, res) => {
-        // delete a transaction by its id
-        res.json("deleting");
+        const { user_id } = req.body;
+        const { id } = req.params;
+
+        if (user_id) {
+            try {
+                const transactionDeleted = await db.query(
+                    "DELETE FROM transactions WHERE user_id = ? AND id = ?",
+                    [user_id, id]
+                );
+                res.status(200).json(transactionDeleted);
+            } catch (error) {
+                res.status(400).json(error);
+            }
+        } else {
+            res.status(400).json("Request must have a user_id.");
+        }
     },
 };
 

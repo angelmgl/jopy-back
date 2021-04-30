@@ -43,6 +43,11 @@ This endpoint will return a JSON like this:
 You also need to set in the *headers* of your next requests the attribute:
 **x-access-token: token**
 
+## [GET] /api/users
+
+If you have a valid token, the API will return you an object with the properties logged: true, and your profile info.
+If you don't have a valid token the API will return you and object with the property logged: false.
+
 ## [POST] /api/transactions
 
 Create a new transaction, you need to add in the req.body:

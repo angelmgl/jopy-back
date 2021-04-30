@@ -10,8 +10,9 @@ const {
     deleteTransactionById
 } = require("../controllers/transactions.controller");
 const verifyToken = require("../middlewares/auth");
+const { validateTransaction } = require("../middlewares/transactions");
 
-router.post("/", verifyToken, createTransaction);
+router.post("/", verifyToken, validateTransaction, createTransaction);
 
 router.get("/", verifyToken, getAllTransactions);
 
@@ -21,7 +22,7 @@ router.get("/type/:type", verifyToken, getTransactionsByType);
 
 router.get("/:id", verifyToken, getTransactionById);
 
-router.put("/:id", verifyToken, updateTransactionById);
+router.put("/:id", verifyToken, validateTransaction, updateTransactionById);
 
 router.delete("/:id", verifyToken, deleteTransactionById);
 

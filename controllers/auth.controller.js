@@ -35,7 +35,6 @@ const controllers = {
 
                 res.status(201).json({
                     success: true,
-                    id: savedUser.insertId,
                     token,
                 });
             } catch (error) {
@@ -45,7 +44,7 @@ const controllers = {
             res.status(400).json({
                 success: false,
                 message: "The username " + username + " already exist",
-                token: null
+                token: null,
             });
         }
     },
@@ -74,7 +73,6 @@ const controllers = {
                 });
                 res.status(200).json({
                     success: true,
-                    id: user[0].id,
                     token,
                 });
             } else {

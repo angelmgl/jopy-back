@@ -3,6 +3,8 @@ require("./database");
 
 const express = require("express");
 const morgan = require("morgan");
+const cors = require('cors');
+const helmet = require("helmet");
 
 // inits
 const app = express();
@@ -11,6 +13,8 @@ const app = express();
 app.set('port', process.env.PORT || 4000);
 
 // middlewares
+app.use(cors());
+app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json()); // to req and res json files through an API

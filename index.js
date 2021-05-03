@@ -13,7 +13,7 @@ const app = express();
 app.set('port', process.env.PORT || 4000);
 
 // middlewares
-app.use(cors());
+app.use(cors({credentials: true, origin: true}));
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: false}));

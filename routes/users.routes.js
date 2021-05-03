@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
             res.status(400).json(error);
         }
     } else {
-        res.status(400).json({
+        res.status(401).json({
             logged: false
         });
     }

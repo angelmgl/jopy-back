@@ -38,6 +38,8 @@ const controllers = {
                     res.status(201).json({
                         success: true,
                         token,
+                        username,
+                        fullname
                     });
                 } catch (error) {
                     console.log(error);
@@ -45,8 +47,7 @@ const controllers = {
             } else {
                 res.status(400).json({
                     success: false,
-                    message: "The username " + username + " already exist",
-                    token: null,
+                    message: "The username " + username + " already exist!"
                 });
             }
         } catch (error) {
@@ -67,8 +68,7 @@ const controllers = {
             if (!user[0]) {
                 res.status(400).json({
                     success: false,
-                    message: "The username " + username + " does'nt exist",
-                    token: null,
+                    message: "The username " + username + " does'nt exist."
                 });
             } else {
                 const match = await matchPasswords(password, user[0].password);
@@ -81,12 +81,13 @@ const controllers = {
                     res.status(200).json({
                         success: true,
                         token,
+                        fullname: user[0].fullname,
+                        username: user[0].username
                     });
                 } else {
                     res.status(401).json({
                         success: false,
-                        message: "Wrong password",
-                        token: null,
+                        message: "Wrong password, try again."
                     });
                 }
             }
